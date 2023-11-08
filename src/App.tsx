@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 function App() {
   const [prevOperand, setPrevOperand] = useState('');
@@ -7,7 +7,8 @@ function App() {
   const [calcDone, setCalcDone] = useState(false);
 
   const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const OPS_LIST = ['+', '-', '*', '/'];
+  const OPERATIONS = ['+', '-', '*', '/'];
+  const ETC = ['Enter', 'Escape', 'Backspace', '.'];
 
   const calculate = (operation: string) => {
     switch (operation) {
@@ -22,15 +23,35 @@ function App() {
     }
   };
 
+  const operate = (operation: string) => {
+    if (prevOperand && !currentOperand) {
+      setOperation(operation);
+    } else if (prevOperand && currentOperand) {
+      setOperation(operation);
+      setPrevOperand(String(calculate(operation)));
+      setCurrentOperand('');
+    } else {
+      setOperation(operation);
+      setPrevOperand(currentOperand);
+      setCurrentOperand('');
+    }
+  };
+
   const numberClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    const value = String(e.currentTarget.getAttribute('data-value'));
+    const value = String(e.currentTarget.getAttribute('value'));
 
     /**
-     * Automatically clear the currentOperand after all calculations have been performed.
-     * For example, after reaching the state '1 + 1 = 2,' entering a new value,
-     * such as '3,' will clear the previous '2' and replace it with '3.'
-     */
-    if (calcDone) {
+     * When the first digit is '0', do not accept '0' as the input.
+     * If another digit is entered, remove the leading '0'. */
+    if (currentOperand.at(0) === '0' && value === '0') return;
+    if (currentOperand.at(0) === '0' && value !== '0') {
+      setCurrentOperand(value);
+    } else if (calcDone) {
+      /**
+       * Automatically clear the currentOperand after all calculations have been performed.
+       * For example, after reaching the state '1 + 1 = 2,' entering a new value,
+       * such as '3,' will clear the previous '2' and replace it with '3.'
+       */
       setCalcDone(false);
       setCurrentOperand(value);
     } else {
@@ -39,8 +60,9 @@ function App() {
   };
 
   const operationHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    const selectedOperation = String(e.currentTarget.getAttribute('data-operation'));
+    const selectedOperation = String(e.currentTarget.getAttribute('value'));
 
+    operate(selectedOperation);
     if (prevOperand && !currentOperand) {
       setOperation(selectedOperation);
     } else if (prevOperand && currentOperand) {
@@ -54,7 +76,7 @@ function App() {
     }
   };
 
-  const addDotHandler = () => {
+  const dotHandler = () => {
     if (currentOperand.includes('.')) return;
 
     currentOperand.length === 0
@@ -82,27 +104,51 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const handleKeyPress = (e: globalThis.KeyboardEvent) => {
+      if (NUMBERS.includes(+e.key) || OPERATIONS.includes(e.key) || ETC.includes(e.key)) {
+        const button = document.querySelector(
+          `button[value="${e.key}"]`
+        ) as HTMLButtonElement;
+        button.click();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   return (
     <div>
       <div>
         prev: {prevOperand} {operation}
       </div>
       <div>current: {currentOperand}</div>
+      <div>calcDone: {String(calcDone)}</div>
       <div>
         {NUMBERS.map(num => (
-          <button key={num} data-value={num} onClick={numberClickHandler}>
+          <button key={num} value={num} onClick={numberClickHandler}>
             {num}
           </button>
         ))}
-        <button onClick={addDotHandler}>.</button>
-        <button onClick={backspaceHandler}>backspace</button>
-        <button onClick={resetHandler}>reset</button>
-        {OPS_LIST.map(operation => (
-          <button key={operation} data-operation={operation} onClick={operationHandler}>
+        <button value="." onClick={dotHandler}>
+          .
+        </button>
+        <button value="Backspace" onClick={backspaceHandler}>
+          backspace
+        </button>
+        <button value="Escape" onClick={resetHandler}>
+          reset
+        </button>
+        {OPERATIONS.map(operation => (
+          <button key={operation} value={operation} onClick={operationHandler}>
             {operation}
           </button>
         ))}
-        <button data-operation={operation} onClick={calculationHandler}>
+        <button value="Enter" onClick={calculationHandler}>
           Calc
         </button>
       </div>
