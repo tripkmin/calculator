@@ -38,15 +38,17 @@ function App() {
     }
   };
 
-  const operationHandler = () => {
+  const operationHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    const selectedOperation = String(e.currentTarget.getAttribute('data-operation'));
+
     if (prevOperand && !currentOperand) {
-      setOperation(operation);
+      setOperation(selectedOperation);
     } else if (prevOperand && currentOperand) {
-      setOperation(operation);
-      setPrevOperand(String(calculate(operation)));
+      setOperation(selectedOperation);
+      setPrevOperand(String(calculate(selectedOperation)));
       setCurrentOperand('');
     } else {
-      setOperation(operation);
+      setOperation(selectedOperation);
       setPrevOperand(currentOperand);
       setCurrentOperand('');
     }
@@ -96,7 +98,7 @@ function App() {
         <button onClick={backspaceHandler}>backspace</button>
         <button onClick={resetHandler}>reset</button>
         {OPS_LIST.map(operation => (
-          <button data-operation={operation} onClick={operationHandler}>
+          <button key={operation} data-operation={operation} onClick={operationHandler}>
             {operation}
           </button>
         ))}
