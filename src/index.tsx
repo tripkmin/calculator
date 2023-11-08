@@ -10,11 +10,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={{ color: 'red' }}>
-      <GlobalFont>
-        <GlobalStyles>
-          <App />
-        </GlobalStyles>
-      </GlobalFont>
+      <GlobalFont />
+      <GlobalStyles />
+      <App />
     </ThemeProvider>
   </React.StrictMode>
 );
