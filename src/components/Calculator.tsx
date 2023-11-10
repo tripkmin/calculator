@@ -1,15 +1,76 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const CalculatorLayout = styled.div`
+const ResultLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 0.5rem;
+  height: 6rem;
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  background-color: ${props => props.theme.subBackgroundA};
+  border-radius: 0.6rem;
+  color: ${props => props.theme.fontColorTypeA};
+`;
+
+const HistoryBox = styled.div`
+  font-size: 1.4rem;
+`;
+
+const ResultBox = styled.div`
+  flex-grow: 1;
+  font-size: 2.5rem;
+`;
+
+const CalcBtnLayout = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25%, auto));
+  grid-template-columns: repeat(4, 1fr);
+  background-color: ${props => props.theme.subBackgroundB};
+  border-radius: 0.6rem;
+  padding: 1.4rem;
+  grid-gap: 1rem;
 `;
 
 const CalcElement = styled.button`
+  background-color: ${props => props.theme.buttonTypeA};
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.6rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${props => props.theme.fontColorTypeB};
+  border-bottom: 2px solid ${props => props.theme.buttonBorderTypeA};
+  transition: background-color 0.1s;
+
+  &:hover {
+    background-color: ${props => props.theme.buttonHoverTypeA};
+  }
+
+  &:nth-child(4),
+  &:nth-child(17) {
+    color: ${props => props.theme.fontColorTypeC};
+    background-color: ${props => props.theme.buttonTypeB};
+    font-size: 1.4rem;
+    border-bottom: 2px solid ${props => props.theme.buttonBorderTypeB};
+    &:hover {
+      background-color: ${props => props.theme.buttonHoverTypeB};
+    }
+  }
+
+  &:nth-child(18) {
+    color: ${props => props.theme.fontColorTypeD};
+    background-color: ${props => props.theme.buttonTypeC};
+    font-size: 1.4rem;
+    border-bottom: 2px solid ${props => props.theme.buttonBorderTypeC};
+    &:hover {
+      background-color: ${props => props.theme.buttonHoverTypeC};
+    }
+  }
+
   &:nth-child(17),
   &:nth-child(18) {
     grid-column: span 2;
+    padding: 1.1rem;
   }
 `;
 
@@ -136,67 +197,68 @@ export default function Calculator() {
 
   return (
     <div>
-      <div>
-        prev: {prevOperand} {operation}
-      </div>
-      <div>current: {currentOperand}</div>
-      <div>calcDone: {String(calcDone)}</div>
-      <CalculatorLayout>
-        <CalcElement value="7" onClick={numberClickHandler}>
+      <ResultLayout>
+        <HistoryBox>
+          {prevOperand} {operation}
+        </HistoryBox>
+        <ResultBox>{currentOperand}</ResultBox>
+      </ResultLayout>
+      <CalcBtnLayout>
+        <CalcElement tabIndex={-1} value="7" onClick={numberClickHandler}>
           7
         </CalcElement>
-        <CalcElement value="8" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="8" onClick={numberClickHandler}>
           8
         </CalcElement>
-        <CalcElement value="9" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="9" onClick={numberClickHandler}>
           9
         </CalcElement>
-        <CalcElement value="Backspace" onClick={backspaceHandler}>
+        <CalcElement tabIndex={-1} value="Backspace" onClick={backspaceHandler}>
           DEL
         </CalcElement>
-        <CalcElement value="4" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="4" onClick={numberClickHandler}>
           4
         </CalcElement>
-        <CalcElement value="5" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="5" onClick={numberClickHandler}>
           5
         </CalcElement>
-        <CalcElement value="6" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="6" onClick={numberClickHandler}>
           6
         </CalcElement>
-        <CalcElement value="+" onClick={operationHandler}>
+        <CalcElement tabIndex={-1} value="+" onClick={operationHandler}>
           +
         </CalcElement>
-        <CalcElement value="1" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="1" onClick={numberClickHandler}>
           1
         </CalcElement>
-        <CalcElement value="2" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="2" onClick={numberClickHandler}>
           2
         </CalcElement>
-        <CalcElement value="3" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="3" onClick={numberClickHandler}>
           3
         </CalcElement>
-        <CalcElement value="-" onClick={operationHandler}>
+        <CalcElement tabIndex={-1} value="-" onClick={operationHandler}>
           -
         </CalcElement>
-        <CalcElement value="." onClick={dotHandler}>
+        <CalcElement tabIndex={-1} value="." onClick={dotHandler}>
           .
         </CalcElement>
-        <CalcElement value="0" onClick={numberClickHandler}>
+        <CalcElement tabIndex={-1} value="0" onClick={numberClickHandler}>
           0
         </CalcElement>
-        <CalcElement value="/" onClick={operationHandler}>
+        <CalcElement tabIndex={-1} value="/" onClick={operationHandler}>
           /
         </CalcElement>
-        <CalcElement value="*" onClick={operationHandler}>
+        <CalcElement tabIndex={-1} value="*" onClick={operationHandler}>
           *
         </CalcElement>
-        <CalcElement value="Escape" onClick={resetHandler}>
+        <CalcElement tabIndex={-1} value="Escape" onClick={resetHandler}>
           RESET
         </CalcElement>
-        <CalcElement value="Enter" onClick={calculationHandler}>
+        <CalcElement tabIndex={-1} value="Enter" onClick={calculationHandler}>
           =
         </CalcElement>
-      </CalculatorLayout>
+      </CalcBtnLayout>
     </div>
   );
 }

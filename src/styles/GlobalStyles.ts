@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
       display: flex;
       justify-content: center;
       align-items: center;
+      background-color: ${props => props.theme.mainBackground};
     }
     ol, ul{
       list-style: none;

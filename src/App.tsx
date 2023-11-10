@@ -15,7 +15,7 @@ function App() {
       <GlobalFont />
       <GlobalStyles />
       <section>
-        <Header setTheme={setTheme} />
+        <Header theme={theme} setTheme={setTheme} />
         <Main>
           <Calculator />
         </Main>
