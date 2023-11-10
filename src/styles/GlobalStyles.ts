@@ -22,6 +22,9 @@ const GlobalStyles = createGlobalStyle`
     }
     body{
       min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     ol, ul{
       list-style: none;
