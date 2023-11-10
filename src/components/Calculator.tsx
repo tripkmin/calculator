@@ -1,5 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { timer } from 'styles/constants';
+import { getResizedFontSize } from 'utils/utils';
 
 const ResultLayout = styled.div`
   display: flex;
@@ -12,21 +14,24 @@ const ResultLayout = styled.div`
   background-color: ${props => props.theme.subBackgroundA};
   border-radius: 0.6rem;
   color: ${props => props.theme.fontColorTypeA};
+  transition: transform ${timer.default}, background-color ${timer.default},
+    color ${timer.default};
 `;
 
 const HistoryBox = styled.div`
   font-size: 1.4rem;
 `;
 
-const ResultBox = styled.div`
+const ResultBox = styled.div<{ $length: number }>`
   flex-grow: 1;
-  font-size: 2.5rem;
+  font-size: ${props => getResizedFontSize(props.$length)};
 `;
 
 const CalcBtnLayout = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background-color: ${props => props.theme.subBackgroundB};
+  transition: background-color ${timer.default};
   border-radius: 0.6rem;
   padding: 1.4rem;
   grid-gap: 1rem;
@@ -40,7 +45,7 @@ const CalcElement = styled.button`
   font-weight: 700;
   color: ${props => props.theme.fontColorTypeB};
   border-bottom: 2px solid ${props => props.theme.buttonBorderTypeA};
-  transition: background-color 0.1s;
+  transition: all ${timer.default};
 
   &:hover {
     background-color: ${props => props.theme.buttonHoverTypeA};
@@ -195,13 +200,24 @@ export default function Calculator() {
     };
   }, []);
 
+  function 변환(num: number) {
+    const stringify = String(num);
+    if (stringify.length <= 21) {
+      return num.toLocaleString();
+    } else {
+      return num;
+    }
+  }
+
   return (
     <div>
       <ResultLayout>
         <HistoryBox>
-          {prevOperand} {operation}
+          {변환(Number(prevOperand))} {operation}
         </HistoryBox>
-        <ResultBox>{currentOperand}</ResultBox>
+        <ResultBox $length={currentOperand.length}>
+          {변환(Number(currentOperand))}
+        </ResultBox>
       </ResultLayout>
       <CalcBtnLayout>
         <CalcElement tabIndex={-1} value="7" onClick={numberClickHandler}>

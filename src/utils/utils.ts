@@ -10,3 +10,13 @@ export const getTranslateXPosition = (theme: ThemeT) => {
       return '39px';
   }
 };
+
+export const getResizedFontSize = (length: number) => {
+  if (length < 15) {
+    return '2.5rem';
+  } else if (length >= 15 && length < 20) {
+    return '2.0rem';
+  } else {
+    return '1.6rem;';
+  }
+};

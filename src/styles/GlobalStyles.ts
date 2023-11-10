@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { timer } from './constants';
 
 const GlobalStyles = createGlobalStyle`
     ${reset}
@@ -26,6 +27,7 @@ const GlobalStyles = createGlobalStyle`
       justify-content: center;
       align-items: center;
       background-color: ${props => props.theme.mainBackground};
+      transition: background-color ${timer.default};
     }
     ol, ul{
       list-style: none;

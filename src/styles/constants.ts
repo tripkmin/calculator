@@ -54,3 +54,9 @@ export const themeType = {
     fontColorTypeD: '#091e26',
   },
 };
+
+export const timer = {
+  default: '0.3s',
+  fast: '0.1s',
+  slow: '0.5s',
+};

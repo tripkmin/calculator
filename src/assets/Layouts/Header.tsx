@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeOption, ThemeT } from 'types/type';
 import { getTranslateXPosition } from 'utils/utils';
+import { timer } from 'styles/constants';
 
 const HeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
   color: ${props => props.theme.fontColorTypeA};
+  transition: color ${timer.default};
 `;
 
 const Head = styled.h1`
@@ -25,10 +27,12 @@ const ThemeBox = styled.div`
   justify-items: center;
   align-items: center;
   color: ${props => props.theme.fontColorTypeA};
+  transition: color ${timer.default};
 `;
 
 const ThemeIndicator = styled.button`
   color: ${props => props.theme.fontColorTypeA};
+  transition: color ${timer.default};
 `;
 const SwtichBox = styled.div<{ $theme: ThemeT }>`
   user-select: none;
@@ -36,6 +40,8 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
   justify-content: space-between;
   align-items: center;
   background-color: ${props => props.theme.subBackgroundB};
+  transition: background-color ${timer.default};
+
   border-radius: 10px;
   padding: 4px 5px;
   position: relative;
@@ -50,12 +56,13 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
     border-radius: 50%;
     background-color: ${props => props.theme.buttonTypeC};
     transform: ${props => `translateX(${getTranslateXPosition(props.$theme)})`};
-    transition: transform 0.2s;
+    transition: transform ${timer.default}, background-color ${timer.default};
   }
 `;
 
 const Switch = styled.button`
   color: ${props => props.theme.subBackgroundB};
+  transition: color ${timer.default};
 `;
 
 interface HeaderProps {
