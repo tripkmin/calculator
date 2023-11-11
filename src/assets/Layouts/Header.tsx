@@ -63,6 +63,7 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
     background-color: ${props => props.theme.buttonTypeC};
     transform: ${props => `translateX(${getTranslateXPosition(props.$theme)})`};
     transition: transform ${timer.default}, background-color ${timer.default};
+    box-shadow: 0 0 20px ${props => props.theme.buttonTypeC};
   }
 `;
 

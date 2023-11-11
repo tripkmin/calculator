@@ -45,13 +45,14 @@ const CalcBtnLayout = styled.div`
 `;
 
 const CalcElement = styled.button`
+  user-select: none;
   background-color: ${props => props.theme.buttonTypeA};
   padding: 0.8rem 1.2rem;
   border-radius: 0.6rem;
   font-size: 2rem;
   font-weight: 700;
   color: ${props => props.theme.fontColorTypeB};
-  border-bottom: 2px solid ${props => props.theme.buttonBorderTypeA};
+  border-bottom: 3px solid ${props => props.theme.buttonBorderTypeA};
   transition: color ${timer.default}, background-color ${timer.default},
     border-bottom ${timer.default}, transform ${timer.fast};
 
@@ -68,7 +69,7 @@ const CalcElement = styled.button`
     color: ${props => props.theme.fontColorTypeC};
     background-color: ${props => props.theme.buttonTypeB};
     font-size: 1.4rem;
-    border-bottom: 2px solid ${props => props.theme.buttonBorderTypeB};
+    border-bottom: 3px solid ${props => props.theme.buttonBorderTypeB};
     &:hover {
       background-color: ${props => props.theme.buttonHoverTypeB};
     }
@@ -78,7 +79,7 @@ const CalcElement = styled.button`
     color: ${props => props.theme.fontColorTypeD};
     background-color: ${props => props.theme.buttonTypeC};
     font-size: 1.4rem;
-    border-bottom: 2px solid ${props => props.theme.buttonBorderTypeC};
+    border-bottom: 3px solid ${props => props.theme.buttonBorderTypeC};
     &:hover {
       background-color: ${props => props.theme.buttonHoverTypeC};
     }
@@ -123,7 +124,7 @@ export default function Calculator() {
      * When the first digit is '0', do not accept '0' as the input.
      * If another digit is entered, remove the leading '0'. */
     if (currentOperand.at(0) === '0' && value === '0') return;
-    if (currentOperand.at(0) === '0' && value !== '0') {
+    if (currentOperand.at(0) === '0' && currentOperand.at(1) !== '.' && value !== '0') {
       setCurrentOperand(value);
     } else if (calcDone) {
       /**
@@ -208,8 +209,12 @@ export default function Calculator() {
   };
 
   useEffect(() => {
-    const handleKeyPress = (e: globalThis.KeyboardEvent) => {
-      if (NUMBERS.includes(+e.key) || OPERATIONS.includes(e.key) || ETC.includes(e.key)) {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (
+        NUMBERS.includes(parseInt(e.key)) ||
+        OPERATIONS.includes(e.key) ||
+        ETC.includes(e.key)
+      ) {
         const button = document.querySelector(
           `button[value="${e.key}"]`
         ) as HTMLButtonElement;
@@ -281,7 +286,7 @@ export default function Calculator() {
           /
         </CalcElement>
         <CalcElement tabIndex={-1} value="*" onClick={operationHandler}>
-          *
+          x
         </CalcElement>
         <CalcElement tabIndex={-1} value="Escape" onClick={resetHandler}>
           RESET
