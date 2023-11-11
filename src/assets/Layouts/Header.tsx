@@ -92,6 +92,7 @@ export default function Header({ theme, setTheme }: HeaderProps) {
         <div>
           {themeArr.map(el => (
             <ThemeIndicator
+              key={el[0]}
               onClick={() => {
                 setTheme(el[0]);
               }}>
@@ -103,6 +104,7 @@ export default function Header({ theme, setTheme }: HeaderProps) {
         <SwtichBox $theme={theme}>
           {themeArr.map(el => (
             <Switch
+              key={el[0]}
               onClick={() => {
                 setTheme(el[0]);
               }}>
