@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('./assets/fonts/LeagueSpartan.ttf'), format('truetype');
+}
+
+* {
+  font-family: 'LeagueSpartan';
+}
