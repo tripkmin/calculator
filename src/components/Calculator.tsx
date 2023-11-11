@@ -146,8 +146,11 @@ export default function Calculator() {
 
   const operationHandler = (e: MouseEvent<HTMLButtonElement>) => {
     const selectedOperation = String(e.currentTarget.getAttribute('value'));
+    if (selectedOperation === '-' && currentOperand === '-') return;
 
-    if (prevOperand && !currentOperand) {
+    if (selectedOperation === '-' && !prevOperand && !currentOperand) {
+      setCurrentOperand(prev => '-' + prev);
+    } else if (prevOperand && !currentOperand) {
       setOperation(selectedOperation);
     } else if (prevOperand && currentOperand) {
       setOperation(selectedOperation);
