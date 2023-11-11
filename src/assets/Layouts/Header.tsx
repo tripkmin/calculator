@@ -32,8 +32,15 @@ const ThemeBox = styled.div`
 
 const ThemeIndicator = styled.button`
   color: ${props => props.theme.fontColorTypeA};
-  transition: color ${timer.default};
+  transition: all ${timer.default};
+  font-size: 0.8rem;
+
+  &:hover,
+  &:focus {
+    font-weight: 700;
+  }
 `;
+
 const SwtichBox = styled.div<{ $theme: ThemeT }>`
   user-select: none;
   display: flex;
@@ -41,19 +48,18 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
   align-items: center;
   background-color: ${props => props.theme.subBackgroundB};
   transition: background-color ${timer.default};
-
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 4px 5px;
   position: relative;
 
   &::after {
     content: '';
     position: absolute;
-    bottom: 6px;
+    bottom: 6.5px;
     left: 8px;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: 1rem;
     background-color: ${props => props.theme.buttonTypeC};
     transform: ${props => `translateX(${getTranslateXPosition(props.$theme)})`};
     transition: transform ${timer.default}, background-color ${timer.default};

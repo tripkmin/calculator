@@ -1,13 +1,12 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { timer } from 'styles/constants';
-import { getResizedFontSize } from 'utils/utils';
+import { ridComma, getResizedFontSize } from 'utils/utils';
 
 const ResultLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
-  gap: 0.5rem;
   height: 6rem;
   margin: 1.2rem 0;
   padding: 1rem 1.2rem;
@@ -19,12 +18,20 @@ const ResultLayout = styled.div`
 `;
 
 const HistoryBox = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 `;
 
 const ResultBox = styled.div<{ $length: number }>`
   flex-grow: 1;
   font-size: ${props => getResizedFontSize(props.$length)};
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+
+  & p {
+    font-size: inherit;
+  }
 `;
 
 const CalcBtnLayout = styled.div`
@@ -45,10 +52,15 @@ const CalcElement = styled.button`
   font-weight: 700;
   color: ${props => props.theme.fontColorTypeB};
   border-bottom: 2px solid ${props => props.theme.buttonBorderTypeA};
-  transition: all ${timer.default};
+  transition: color ${timer.default}, background-color ${timer.default},
+    border-bottom ${timer.default}, transform ${timer.fast};
 
   &:hover {
     background-color: ${props => props.theme.buttonHoverTypeA};
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 
   &:nth-child(4),
@@ -90,29 +102,17 @@ export default function Calculator() {
   const ETC = ['Enter', 'Escape', 'Backspace', '.'];
 
   const calculate = (operation: string) => {
+    const [prev, current] = [ridComma(prevOperand), ridComma(currentOperand)];
+
     switch (operation) {
       case '+':
-        return parseFloat(prevOperand) + parseFloat(currentOperand);
+        return parseFloat(prev) + parseFloat(current);
       case '-':
-        return parseFloat(prevOperand) - parseFloat(currentOperand);
+        return parseFloat(prev) - parseFloat(current);
       case '*':
-        return parseFloat(prevOperand) * parseFloat(currentOperand);
+        return parseFloat(prev) * parseFloat(current);
       case '/':
-        return parseFloat(prevOperand) / parseFloat(currentOperand);
-    }
-  };
-
-  const operate = (operation: string) => {
-    if (prevOperand && !currentOperand) {
-      setOperation(operation);
-    } else if (prevOperand && currentOperand) {
-      setOperation(operation);
-      setPrevOperand(String(calculate(operation)));
-      setCurrentOperand('');
-    } else {
-      setOperation(operation);
-      setPrevOperand(currentOperand);
-      setCurrentOperand('');
+        return parseFloat(prev) / parseFloat(current);
     }
   };
 
@@ -134,19 +134,31 @@ export default function Calculator() {
       setCalcDone(false);
       setCurrentOperand(value);
     } else {
-      setCurrentOperand(prev => prev + value);
+      setCurrentOperand(prev => {
+        if (prev.length <= 16) {
+          return Number(ridComma(prev) + value).toLocaleString();
+        } else {
+          return prev;
+        }
+      });
     }
   };
 
   const operationHandler = (e: MouseEvent<HTMLButtonElement>) => {
     const selectedOperation = String(e.currentTarget.getAttribute('value'));
 
-    operate(selectedOperation);
     if (prevOperand && !currentOperand) {
       setOperation(selectedOperation);
     } else if (prevOperand && currentOperand) {
       setOperation(selectedOperation);
-      setPrevOperand(String(calculate(selectedOperation)));
+      setPrevOperand(_ => {
+        const result = calculate(selectedOperation);
+        if (String(result).length <= 19) {
+          return String(result?.toLocaleString());
+        } else {
+          return String(result);
+        }
+      });
       setCurrentOperand('');
     } else {
       setOperation(selectedOperation);
@@ -171,12 +183,21 @@ export default function Calculator() {
   };
 
   const backspaceHandler = () => {
-    calcDone ? setCurrentOperand('') : setCurrentOperand(prev => prev.slice(0, -1));
+    calcDone
+      ? setCurrentOperand('')
+      : setCurrentOperand(prev => Number(ridComma(prev).slice(0, -1)).toLocaleString());
   };
 
   const calculationHandler = () => {
     if (prevOperand && currentOperand && operation) {
-      setCurrentOperand(String(calculate(operation)));
+      setCurrentOperand(_ => {
+        const result = calculate(operation);
+        if (String(result).length <= 19) {
+          return String(result?.toLocaleString());
+        } else {
+          return String(result);
+        }
+      });
       setPrevOperand('');
       setOperation('');
       setCalcDone(true);
@@ -200,23 +221,14 @@ export default function Calculator() {
     };
   }, []);
 
-  function 변환(num: number) {
-    const stringify = String(num);
-    if (stringify.length <= 21) {
-      return num.toLocaleString();
-    } else {
-      return num;
-    }
-  }
-
   return (
     <div>
       <ResultLayout>
         <HistoryBox>
-          {변환(Number(prevOperand))} {operation}
+          {prevOperand} {operation}
         </HistoryBox>
         <ResultBox $length={currentOperand.length}>
-          {변환(Number(currentOperand))}
+          <p>{currentOperand}</p>
         </ResultBox>
       </ResultLayout>
       <CalcBtnLayout>
