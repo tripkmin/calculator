@@ -57,7 +57,7 @@ const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
   color: ${props => props.theme.fontColorTypeB};
   border-bottom: 3px solid ${props => props.theme.buttonBorderTypeA};
   transform: ${props =>
-    props.$pressedKey === props.value ? 'translateY(1px)' : 'translateY(0px)'};
+    props.$pressedKey === props.value ? 'translateY(2px)' : 'translateY(0px)'};
   transition: color ${timer.default}, background-color ${timer.default},
     border-bottom ${timer.default}, transform ${timer.fast};
 
@@ -66,7 +66,7 @@ const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
   }
 
   &:active {
-    transform: translateY(1px);
+    transform: translateY(2px);
     background-color: ${props => props.theme.buttonActiveTypeA};
   }
 
@@ -79,8 +79,7 @@ const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
         : props.theme.buttonTypeB};
     font-size: 1.4rem;
     border-bottom: 3px solid ${props => props.theme.buttonBorderTypeB};
-    transform: ${props =>
-      props.$pressedKey === props.value ? 'translateY(1px)' : 'translateY(0px)'};
+
     &:hover {
       background-color: ${props => props.theme.buttonHoverTypeB};
     }
@@ -94,8 +93,7 @@ const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
         : props.theme.buttonTypeC};
     font-size: 1.4rem;
     border-bottom: 3px solid ${props => props.theme.buttonBorderTypeC};
-    transform: ${props =>
-      props.$pressedKey === props.value ? 'translateY(1px)' : 'translateY(0px)'};
+
     &:hover {
       background-color: ${props => props.theme.buttonHoverTypeC};
     }
@@ -181,7 +179,7 @@ export default function Calculator() {
           let [integer, decimal] = ridComma(String(result)).split('.');
           integer = Number(integer).toLocaleString();
           return `${integer}.${decimal}`;
-        } else if (String(result).length <= 19) {
+        } else if (String(result).length <= 21) {
           return String(result?.toLocaleString());
         } else {
           return String(result);
@@ -225,7 +223,7 @@ export default function Calculator() {
           let [integer, decimal] = ridComma(String(result)).split('.');
           integer = Number(integer).toLocaleString();
           return `${integer}.${decimal}`;
-        } else if (String(result).length <= 19) {
+        } else if (String(result).length <= 21) {
           return String(result?.toLocaleString());
         } else {
           return String(result);

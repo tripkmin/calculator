@@ -34,10 +34,12 @@ export const getMobileTranslateXPosition = (theme: ThemeT) => {
 export const getResizedFontSize = (length: number) => {
   if (length < 15) {
     return '2.5rem';
-  } else if (length >= 15 && length < 18) {
+  } else if (length >= 15 && length < 20) {
     return '2.0rem';
-  } else {
+  } else if (length >= 20 && length < 24) {
     return '1.8rem;';
+  } else {
+    return '1.6rem';
   }
 };
 
