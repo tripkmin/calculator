@@ -44,15 +44,20 @@ const CalcBtnLayout = styled.div`
   grid-gap: 1rem;
 `;
 
-const CalcElement = styled.button`
+const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
   user-select: none;
-  background-color: ${props => props.theme.buttonTypeA};
+  background-color: ${props =>
+    props.$pressedKey === props.value
+      ? props.theme.buttonHoverTypeA
+      : props.theme.buttonTypeA};
   padding: 0.8rem 1.2rem;
   border-radius: 0.6rem;
   font-size: 2rem;
   font-weight: 700;
   color: ${props => props.theme.fontColorTypeB};
   border-bottom: 3px solid ${props => props.theme.buttonBorderTypeA};
+  transform: ${props =>
+    props.$pressedKey === props.value ? 'translateY(1px)' : 'translateY(0px)'};
   transition: color ${timer.default}, background-color ${timer.default},
     border-bottom ${timer.default}, transform ${timer.fast};
 
@@ -62,14 +67,20 @@ const CalcElement = styled.button`
 
   &:active {
     transform: translateY(1px);
+    background-color: ${props => props.theme.buttonActiveTypeA};
   }
 
   &:nth-child(4),
   &:nth-child(17) {
     color: ${props => props.theme.fontColorTypeC};
-    background-color: ${props => props.theme.buttonTypeB};
+    background-color: ${props =>
+      props.$pressedKey === props.value
+        ? props.theme.buttonHoverTypeB
+        : props.theme.buttonTypeB};
     font-size: 1.4rem;
     border-bottom: 3px solid ${props => props.theme.buttonBorderTypeB};
+    transform: ${props =>
+      props.$pressedKey === props.value ? 'translateY(1px)' : 'translateY(0px)'};
     &:hover {
       background-color: ${props => props.theme.buttonHoverTypeB};
     }
@@ -77,9 +88,14 @@ const CalcElement = styled.button`
 
   &:nth-child(18) {
     color: ${props => props.theme.fontColorTypeD};
-    background-color: ${props => props.theme.buttonTypeC};
+    background-color: ${props =>
+      props.$pressedKey === props.value
+        ? props.theme.buttonHoverTypeC
+        : props.theme.buttonTypeC};
     font-size: 1.4rem;
     border-bottom: 3px solid ${props => props.theme.buttonBorderTypeC};
+    transform: ${props =>
+      props.$pressedKey === props.value ? 'translateY(1px)' : 'translateY(0px)'};
     &:hover {
       background-color: ${props => props.theme.buttonHoverTypeC};
     }
@@ -97,6 +113,7 @@ export default function Calculator() {
   const [currentOperand, setCurrentOperand] = useState('');
   const [operation, setOperation] = useState('');
   const [calcDone, setCalcDone] = useState(false);
+  const [pressedKey, setPressedKey] = useState('');
 
   const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const OPERATIONS = ['+', '-', '*', '/'];
@@ -230,7 +247,9 @@ export default function Calculator() {
         const button = document.querySelector(
           `button[value="${e.key}"]`
         ) as HTMLButtonElement;
+
         button.click();
+        setPressedKey(e.key);
       }
     };
 
@@ -240,6 +259,16 @@ export default function Calculator() {
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, []);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setPressedKey('');
+    }, 100);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [pressedKey]);
 
   return (
     <div>
@@ -252,58 +281,130 @@ export default function Calculator() {
         </ResultBox>
       </ResultLayout>
       <CalcBtnLayout>
-        <CalcElement tabIndex={-1} value="7" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="7"
+          onClick={numberClickHandler}>
           7
         </CalcElement>
-        <CalcElement tabIndex={-1} value="8" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="8"
+          onClick={numberClickHandler}>
           8
         </CalcElement>
-        <CalcElement tabIndex={-1} value="9" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="9"
+          onClick={numberClickHandler}>
           9
         </CalcElement>
-        <CalcElement tabIndex={-1} value="Backspace" onClick={backspaceHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="Backspace"
+          onClick={backspaceHandler}>
           DEL
         </CalcElement>
-        <CalcElement tabIndex={-1} value="4" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="4"
+          onClick={numberClickHandler}>
           4
         </CalcElement>
-        <CalcElement tabIndex={-1} value="5" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="5"
+          onClick={numberClickHandler}>
           5
         </CalcElement>
-        <CalcElement tabIndex={-1} value="6" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="6"
+          onClick={numberClickHandler}>
           6
         </CalcElement>
-        <CalcElement tabIndex={-1} value="+" onClick={operationHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="+"
+          onClick={operationHandler}>
           +
         </CalcElement>
-        <CalcElement tabIndex={-1} value="1" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="1"
+          onClick={numberClickHandler}>
           1
         </CalcElement>
-        <CalcElement tabIndex={-1} value="2" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="2"
+          onClick={numberClickHandler}>
           2
         </CalcElement>
-        <CalcElement tabIndex={-1} value="3" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="3"
+          onClick={numberClickHandler}>
           3
         </CalcElement>
-        <CalcElement tabIndex={-1} value="-" onClick={operationHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="-"
+          onClick={operationHandler}>
           -
         </CalcElement>
-        <CalcElement tabIndex={-1} value="." onClick={dotHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="."
+          onClick={dotHandler}>
           .
         </CalcElement>
-        <CalcElement tabIndex={-1} value="0" onClick={numberClickHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="0"
+          onClick={numberClickHandler}>
           0
         </CalcElement>
-        <CalcElement tabIndex={-1} value="/" onClick={operationHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="/"
+          onClick={operationHandler}>
           /
         </CalcElement>
-        <CalcElement tabIndex={-1} value="*" onClick={operationHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="*"
+          onClick={operationHandler}>
           x
         </CalcElement>
-        <CalcElement tabIndex={-1} value="Escape" onClick={resetHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="Escape"
+          onClick={resetHandler}>
           RESET
         </CalcElement>
-        <CalcElement tabIndex={-1} value="Enter" onClick={calculationHandler}>
+        <CalcElement
+          $pressedKey={pressedKey}
+          tabIndex={-1}
+          value="Enter"
+          onClick={calculationHandler}>
           =
         </CalcElement>
       </CalcBtnLayout>
