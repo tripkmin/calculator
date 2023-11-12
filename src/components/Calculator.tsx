@@ -120,10 +120,12 @@ export default function Calculator() {
   const numberClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     const value = String(e.currentTarget.getAttribute('value'));
 
+    if (currentOperand.length > 16) return;
     /**
      * When the first digit is '0', do not accept '0' as the input.
      * If another digit is entered, remove the leading '0'. */
-    if (currentOperand.at(0) === '0' && value === '0') return;
+    if (currentOperand.at(0) === '0' && currentOperand.at(1) !== '.' && value === '0')
+      return;
     if (currentOperand.at(0) === '0' && currentOperand.at(1) !== '.' && value !== '0') {
       setCurrentOperand(value);
     } else if (calcDone) {
@@ -134,14 +136,15 @@ export default function Calculator() {
        */
       setCalcDone(false);
       setCurrentOperand(value);
-    } else {
+    } else if (currentOperand.includes('.')) {
       setCurrentOperand(prev => {
-        if (prev.length <= 16) {
-          return Number(ridComma(prev) + value).toLocaleString();
-        } else {
-          return prev;
-        }
+        let [integer, decimal] = ridComma(prev).split('.');
+        integer = Number(integer).toLocaleString();
+        decimal += value;
+        return `${integer}.${decimal}`;
       });
+    } else {
+      setCurrentOperand(prev => Number(ridComma(prev) + value).toLocaleString());
     }
   };
 
@@ -157,7 +160,11 @@ export default function Calculator() {
       setOperation(selectedOperation);
       setPrevOperand(_ => {
         const result = calculate(selectedOperation);
-        if (String(result).length <= 19) {
+        if (String(result).includes('.') && result) {
+          let [integer, decimal] = ridComma(String(result)).split('.');
+          integer = Number(integer).toLocaleString();
+          return `${integer}.${decimal}`;
+        } else if (String(result).length <= 19) {
           return String(result?.toLocaleString());
         } else {
           return String(result);
@@ -196,7 +203,12 @@ export default function Calculator() {
     if (prevOperand && currentOperand && operation) {
       setCurrentOperand(_ => {
         const result = calculate(operation);
-        if (String(result).length <= 19) {
+
+        if (String(result).includes('.') && result) {
+          let [integer, decimal] = ridComma(String(result)).split('.');
+          integer = Number(integer).toLocaleString();
+          return `${integer}.${decimal}`;
+        } else if (String(result).length <= 19) {
           return String(result?.toLocaleString());
         } else {
           return String(result);
