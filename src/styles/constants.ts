@@ -60,3 +60,8 @@ export const timer = {
   fast: '0.1s',
   slow: '0.5s',
 };
+
+export const size = {
+  mobile: '768px',
+  desktop: '1024px',
+};

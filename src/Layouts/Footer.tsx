@@ -1,23 +1,28 @@
 import githubIcon from 'assets/images/github.png';
 import frontendMentorIcon from 'assets/images/frontendMentor.png';
 import styled from 'styled-components';
-import { timer } from 'styles/constants';
+import { size, timer } from 'styles/constants';
 
 const FooterLayout = styled.footer`
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: flex-end;
-  gap: 0.4rem;
+  gap: 0.6rem;
 `;
+
 const Link = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6px;
+  padding: 8px;
   border-radius: 50%;
   background-color: ${props => props.theme.buttonTypeB};
   transition: all ${timer.default};
   cursor: pointer;
+
+  @media screen and (max-width: ${size.mobile}) {
+    padding: 10px;
+  }
 
   &:hover {
     background-color: ${props => props.theme.buttonHoverTypeB};
@@ -29,6 +34,14 @@ const Link = styled.a`
   }
 `;
 
+const Icon = styled.img`
+  width: 16px;
+
+  @media screen and (max-width: ${size.mobile}) {
+    width: 24px;
+  }
+`;
+
 export default function Footer() {
   return (
     <FooterLayout>
@@ -36,13 +49,13 @@ export default function Footer() {
         href="https://github.com/tripkmin/calculator"
         target="_blank"
         title="tripkmin github">
-        <img width={16} src={githubIcon}></img>
+        <Icon src={githubIcon}></Icon>
       </Link>
       <Link
         href="https://www.frontendmentor.io/challenges/calculator-app-9lteq5N29"
         target="_blank"
         title="frontend mentor">
-        <img width={16} src={frontendMentorIcon}></img>
+        <Icon src={frontendMentorIcon}></Icon>
       </Link>
     </FooterLayout>
   );

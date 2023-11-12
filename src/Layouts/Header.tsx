@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeOption, ThemeT } from 'types/type';
-import { getTranslateXPosition } from 'utils/utils';
-import { timer } from 'styles/constants';
+import { getDesktopTranslateXPosition, getMobileTranslateXPosition } from 'utils/utils';
+import { size, timer } from 'styles/constants';
 
 const HeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   color: ${props => props.theme.fontColorTypeA};
   transition: color ${timer.default};
 `;
@@ -30,6 +31,13 @@ const ThemeBox = styled.div`
   transition: color ${timer.default};
 `;
 
+const ThemeIndicatorBox = styled.div`
+  display: flex;
+
+  @media screen and (max-width: ${size.mobile}) {
+    gap: 0.2rem;
+  }
+`;
 const ThemeIndicator = styled.button`
   color: ${props => props.theme.fontColorTypeA};
   transition: all ${timer.default};
@@ -38,6 +46,10 @@ const ThemeIndicator = styled.button`
   &:hover,
   &:focus {
     font-weight: 700;
+  }
+
+  @media screen and (max-width: ${size.mobile}) {
+    /* font-size: 1rem; */
   }
 `;
 
@@ -52,6 +64,10 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
   padding: 4px 5px;
   position: relative;
 
+  @media screen and (max-width: ${size.mobile}) {
+    /* padding: 8px 20px; */
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -61,15 +77,26 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
     height: 12px;
     border-radius: 1rem;
     background-color: ${props => props.theme.buttonTypeC};
-    transform: ${props => `translateX(${getTranslateXPosition(props.$theme)})`};
+    transform: ${props => `translateX(${getDesktopTranslateXPosition(props.$theme)})`};
     transition: transform ${timer.default}, background-color ${timer.default};
     box-shadow: 0 0 20px ${props => props.theme.buttonTypeC};
+
+    @media screen and (max-width: ${size.mobile}) {
+      bottom: 7.5px;
+      width: 18px;
+      height: 18px;
+      transform: ${props => `translateX(${getMobileTranslateXPosition(props.$theme)})`};
+    }
   }
 `;
 
 const Switch = styled.button`
   color: ${props => props.theme.subBackgroundB};
   transition: color ${timer.default};
+
+  @media screen and (max-width: ${size.mobile}) {
+    font-size: 1.5rem;
+  }
 `;
 
 interface HeaderProps {
@@ -89,7 +116,7 @@ export default function Header({ theme, setTheme }: HeaderProps) {
       <Head>calc</Head>
       <ThemeBox>
         <p></p>
-        <div>
+        <ThemeIndicatorBox>
           {themeArr.map(el => (
             <ThemeIndicator
               key={el[0]}
@@ -99,7 +126,7 @@ export default function Header({ theme, setTheme }: HeaderProps) {
               {el[1]}
             </ThemeIndicator>
           ))}
-        </div>
+        </ThemeIndicatorBox>
         <SubHead>THEME</SubHead>
         <SwtichBox $theme={theme}>
           {themeArr.map(el => (
