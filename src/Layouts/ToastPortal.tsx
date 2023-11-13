@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { timer } from 'styles/constants';
@@ -9,7 +10,7 @@ const ToastList = styled.div`
   gap: 0.8rem;
 `;
 
-const Toast = styled.div`
+const Toast = styled(motion.div)`
   background-color: ${props => props.theme.buttonTypeB};
   transition: background-color ${timer.default}, color ${timer.default};
   color: ${props => props.theme.fontColorTypeC};
@@ -24,9 +25,19 @@ interface ToastPortalT {
 export default function ToastPortal({ toasts }: ToastPortalT) {
   return createPortal(
     <ToastList>
-      {toasts?.map(t => (
-        <Toast key={t.id}>{t.content}</Toast>
-      ))}
+      <AnimatePresence>
+        {toasts?.map(t => (
+          <Toast
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, type: 'spring' }}
+            exit={{ opacity: 0, y: -20 }}
+            key={t.id}
+          >
+            {t.content}
+          </Toast>
+        ))}
+      </AnimatePresence>
     </ToastList>,
     document.querySelector('#toast') as HTMLElement
   );

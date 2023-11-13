@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import { timer } from 'styles/constants';
 import { ridComma, getResizedFontSize } from 'utils/utils';
 import uuid from 'react-uuid';
+import { ToastT } from 'types/type';
 
-const ResultLayout = styled.div`
+const ResultLayout = styled.div<{ $pointer: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -17,6 +18,8 @@ const ResultLayout = styled.div`
   color: ${props => props.theme.fontColorTypeA};
   transition: transform ${timer.default}, background-color ${timer.default},
     color ${timer.default};
+  user-select: none;
+  cursor: ${props => (props.$pointer ? 'pointer' : 'auto')};
 `;
 
 const HistoryBox = styled.div`
@@ -109,7 +112,7 @@ const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
 `;
 
 export default function Calculator() {
-  const [toasts, setToasts] = useState<any[]>([]);
+  const [toasts, setToasts] = useState<ToastT[]>([]);
   const [removeId, setRemoveId] = useState('');
 
   const [prevOperand, setPrevOperand] = useState('');
@@ -220,7 +223,11 @@ export default function Calculator() {
   };
 
   const calculationHandler = () => {
-    if (prevOperand && currentOperand && operation) {
+    if (prevOperand && operation && !currentOperand) {
+      setCurrentOperand(prevOperand);
+      setPrevOperand('');
+      setOperation('');
+    } else if (prevOperand && currentOperand && operation) {
       setCurrentOperand(_ => {
         const result = calculate(operation);
 
@@ -279,7 +286,7 @@ export default function Calculator() {
 
   useEffect(() => {
     if (toasts.length) {
-      const id = toasts.at(-1).id;
+      const id = toasts[toasts.length - 1].id;
       setTimeout(() => {
         setRemoveId(id);
       }, 2000);
@@ -296,7 +303,10 @@ export default function Calculator() {
   return (
     <div>
       <ToastPortal toasts={toasts}></ToastPortal>
-      <ResultLayout onClick={onClickHandler}>
+      <ResultLayout
+        $pointer={currentOperand !== '' && operation === '' && prevOperand === ''}
+        onClick={onClickHandler}
+      >
         <HistoryBox>
           {prevOperand} {operation}
         </HistoryBox>

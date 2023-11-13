@@ -13,7 +13,7 @@ const HeaderBox = styled.div`
 `;
 
 const Head = styled.h1`
-  font-size: 2%.1;
+  font-size: 2.5rem;
   font-weight: 700;
 `;
 
@@ -122,7 +122,8 @@ export default function Header({ theme, setTheme }: HeaderProps) {
               key={el[0]}
               onClick={() => {
                 setTheme(el[0]);
-              }}>
+              }}
+            >
               {el[1]}
             </ThemeIndicator>
           ))}
@@ -134,7 +135,8 @@ export default function Header({ theme, setTheme }: HeaderProps) {
               key={el[0]}
               onClick={() => {
                 setTheme(el[0]);
-              }}>
+              }}
+            >
               {el[1]}
             </Switch>
           ))}
