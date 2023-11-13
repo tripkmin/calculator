@@ -1,46 +1,59 @@
-# Getting Started with Create React App
+# <img src="https://cdn.iconscout.com/icon/free/png-512/free-react-1-282599.png?f=avif&w=512" width="30"/> Calc Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 한국어
 
-## Available Scripts
+### 🔗 링크
 
-In the project directory, you can run:
+- Github URL: [여기를 클릭해주세요](https://github.com/tripkmin/calculator)
+- Live Site URL: [여기를 클릭해주세요](https://calculator-tripkmin.vercel.app/)
 
-### `npm start`
+### 🛠️ 사용한 기술
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React JS
+- TypeScript
+- Styled-Components
+- HTML5, CSS
+- Framer Motion
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 🗒️ 주요 기능
 
-### `npm test`
+- Windows 기본 계산기와 유사한 기능을 구현하였습니다.
+  - 정수부는 콤마로 구분되며, 소수부는 구분 없이 나타나도록 설계되었습니다.
+- 키보드 입력을 완벽하게 지원합니다.
+  - 0~9: 숫자 입력
+  - Enter: 계산 결과 출력
+  - Backspace: 숫자 입력 시 백스페이스, 결과 출력 시에는 초기화
+  - Esc: 초기화
+- 사용자가 선택한 테마는 로컬 스토리지에 저장됩니다.
+- 계산이 완료되면 결과를 클릭하여 클립보드에 복사할 수 있습니다.
+  - 계산 중이거나 계산 결과가 없을 경우 클립보드 복사가 불가능합니다.
+- 복사가 완료되면 Toast가 나타나며 피드백이 제공됩니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## English
 
-### `npm run build`
+### 🔗 Links
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Github URL: [Click here](https://github.com/tripkmin/calculator)
+- Live Site URL: [Click here](https://calculator-tripkmin.vercel.app/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🛠️ Technologies Used
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React JS
+- TypeScript
+- Styled-Components
+- HTML5, CSS
+- Framer Motion
 
-### `npm run eject`
+### 🗒️ Key Features
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Implemented features similar to the Windows default calculator.
+  - Integer part is separated by commas, and decimal part is displayed without separation.
+- Fully supports keyboard input.
+  - 0~9: Number input
+  - Enter: Display calculation result
+  - Backspace: Backspace during number input, reset during result display
+  - Esc: Reset
+- User-selected theme is stored in local storage.
+- After completion of calculation, the result can be copied to the clipboard by clicking.
+  - Clipboard copy is not available during calculation or when there is no calculation result.
+- When copying is completed, a toast appears providing feedback.
