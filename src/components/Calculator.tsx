@@ -1,11 +1,11 @@
 import ToastPortal from 'Layouts/ToastPortal';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import { timer } from 'styles/constants';
 import { ridComma, getResizedFontSize } from 'utils/utils';
 import uuid from 'react-uuid';
-import { ToastT } from 'types/type';
 import useToast from 'hooks/useToast';
+import useKeyPress from 'hooks/useKeyPress';
 
 const ResultLayout = styled.div<{ $pointer: boolean }>`
   display: flex;
@@ -117,11 +117,9 @@ export default function Calculator() {
   const [currentOperand, setCurrentOperand] = useState('');
   const [operation, setOperation] = useState('');
   const [calcDone, setCalcDone] = useState(false);
-  const [pressedKey, setPressedKey] = useState('');
 
-  const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const OPERATIONS = ['+', '-', '*', '/'];
-  const ETC = ['Enter', 'Escape', 'Backspace', '.'];
+  const { toasts, setToasts } = useToast();
+  const { pressedKey } = useKeyPress();
 
   const calculate = (operation: string) => {
     const [prev, current] = [ridComma(prevOperand), ridComma(currentOperand)];
@@ -244,41 +242,6 @@ export default function Calculator() {
       setCalcDone(true);
     }
   };
-
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (
-        NUMBERS.includes(parseInt(e.key)) ||
-        OPERATIONS.includes(e.key) ||
-        ETC.includes(e.key)
-      ) {
-        const button = document.querySelector(
-          `button[value="${e.key}"]`
-        ) as HTMLButtonElement;
-
-        button.click();
-        setPressedKey(e.key);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyPress);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
-
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setPressedKey('');
-    }, 100);
-
-    return () => {
-      clearTimeout(id);
-    };
-  }, [pressedKey]);
-
-  const { toasts, setToasts } = useToast();
 
   const onClickHandler = () => {
     if (!prevOperand && !operation && currentOperand) {
