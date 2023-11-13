@@ -47,10 +47,6 @@ const ThemeIndicator = styled.button`
   &:focus {
     font-weight: 700;
   }
-
-  @media screen and (max-width: ${size.mobile}) {
-    /* font-size: 1rem; */
-  }
 `;
 
 const SwtichBox = styled.div<{ $theme: ThemeT }>`
@@ -63,10 +59,6 @@ const SwtichBox = styled.div<{ $theme: ThemeT }>`
   border-radius: 20px;
   padding: 4px 5px;
   position: relative;
-
-  @media screen and (max-width: ${size.mobile}) {
-    /* padding: 8px 20px; */
-  }
 
   &::after {
     content: '';
