@@ -82,6 +82,12 @@ const GlobalStyles = createGlobalStyle`
     textarea&:focus{
       outline: none;
     }
+
+    #toast {
+      position: absolute;
+      top: 1rem;
+      z-index: 1;
+    }
 `;
 
 export default GlobalStyles;

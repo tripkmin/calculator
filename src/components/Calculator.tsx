@@ -1,7 +1,9 @@
+import ToastPortal from 'Layouts/ToastPortal';
 import { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { timer } from 'styles/constants';
 import { ridComma, getResizedFontSize } from 'utils/utils';
+import uuid from 'react-uuid';
 
 const ResultLayout = styled.div`
   display: flex;
@@ -107,6 +109,9 @@ const CalcElement = styled.button<{ $pressedKey: string; value: string }>`
 `;
 
 export default function Calculator() {
+  const [toasts, setToasts] = useState<any[]>([]);
+  const [removeId, setRemoveId] = useState('');
+
   const [prevOperand, setPrevOperand] = useState('');
   const [currentOperand, setCurrentOperand] = useState('');
   const [operation, setOperation] = useState('');
@@ -268,9 +273,30 @@ export default function Calculator() {
     };
   }, [pressedKey]);
 
+  useEffect(() => {
+    setToasts(t => t.filter(_t => _t.id !== removeId));
+  }, [removeId]);
+
+  useEffect(() => {
+    if (toasts.length) {
+      const id = toasts.at(-1).id;
+      setTimeout(() => {
+        setRemoveId(id);
+      }, 2000);
+    }
+  }, [toasts]);
+
+  const onClickHandler = () => {
+    if (!prevOperand && !operation && currentOperand) {
+      setToasts(prev => [...prev, { id: uuid(), content: `Copied to clipboard` }]);
+      navigator.clipboard.writeText(currentOperand);
+    }
+  };
+
   return (
     <div>
-      <ResultLayout>
+      <ToastPortal toasts={toasts}></ToastPortal>
+      <ResultLayout onClick={onClickHandler}>
         <HistoryBox>
           {prevOperand} {operation}
         </HistoryBox>
@@ -283,126 +309,144 @@ export default function Calculator() {
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="7"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           7
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="8"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           8
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="9"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           9
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="Backspace"
-          onClick={backspaceHandler}>
+          onClick={backspaceHandler}
+        >
           DEL
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="4"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           4
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="5"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           5
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="6"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           6
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="+"
-          onClick={operationHandler}>
+          onClick={operationHandler}
+        >
           +
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="1"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           1
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="2"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           2
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="3"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           3
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="-"
-          onClick={operationHandler}>
+          onClick={operationHandler}
+        >
           -
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="."
-          onClick={dotHandler}>
+          onClick={dotHandler}
+        >
           .
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="0"
-          onClick={numberClickHandler}>
+          onClick={numberClickHandler}
+        >
           0
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="/"
-          onClick={operationHandler}>
+          onClick={operationHandler}
+        >
           /
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="*"
-          onClick={operationHandler}>
+          onClick={operationHandler}
+        >
           x
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="Escape"
-          onClick={resetHandler}>
+          onClick={resetHandler}
+        >
           RESET
         </CalcElement>
         <CalcElement
           $pressedKey={pressedKey}
           tabIndex={-1}
           value="Enter"
-          onClick={calculationHandler}>
+          onClick={calculationHandler}
+        >
           =
         </CalcElement>
       </CalcBtnLayout>
