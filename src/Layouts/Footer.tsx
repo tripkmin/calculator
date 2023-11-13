@@ -48,14 +48,16 @@ export default function Footer() {
       <Link
         href="https://github.com/tripkmin/calculator"
         target="_blank"
-        title="tripkmin github">
-        <Icon src={githubIcon}></Icon>
+        title="Github Repo"
+      >
+        <Icon src={githubIcon} alt="Github Repo"></Icon>
       </Link>
       <Link
         href="https://www.frontendmentor.io/challenges/calculator-app-9lteq5N29"
         target="_blank"
-        title="frontend mentor">
-        <Icon src={frontendMentorIcon}></Icon>
+        title="Frontend Mentor"
+      >
+        <Icon src={frontendMentorIcon} alt="Frontend Mentor"></Icon>
       </Link>
     </FooterLayout>
   );

@@ -4,7 +4,7 @@ import { ThemeOption, ThemeT } from 'types/type';
 import { getDesktopTranslateXPosition, getMobileTranslateXPosition } from 'utils/utils';
 import { size, timer } from 'styles/constants';
 
-const HeaderBox = styled.div`
+const HeaderBox = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -17,8 +17,9 @@ const Head = styled.h1`
   font-weight: 700;
 `;
 
-const SubHead = styled.h6`
+const SubHead = styled.h2`
   font-weight: 700;
+  font-size: 0.8rem;
 `;
 
 const ThemeBox = styled.div`
